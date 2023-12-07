@@ -10,52 +10,42 @@
 <body>
 
     <main>
-        <div onclick="shit(event.target)">
+        <div onclick="copyImageToClipboard(event.target)">
             <img src="meme.png" style="pointer-events: none;"></img>
         </div>
     </main>
     <script typescript>
-        function shit(div) {
-            // div.setAttribute('contentEditable', true);
-            // var element = div.querySelector('img');
-
+        function copyImageToClipboard(div) {
             navigator.clipboard.write(
                 [new ClipboardItem({ "image/png": newImgPromise() })])
         }
 
         function newImgPromise() {
             return fetch('meme.png')
-                .then(data => data.blob())
+                .then(data => {
+                    alert('copied!');
+                    return data.blob()
+                })
         }
-        function copyImageToClipboard(ev) {
-            var img = ev.target;
-            var c = document.createElement("canvas");
-            var ctx = c.getContext("2d");
+        // function copyImageToClipboard(ev) {
+        //     var img = ev.target;
+        //     var c = document.createElement("canvas");
+        //     var ctx = c.getContext("2d");
 
-            c.width = img.naturalWidth;
-            c.height = img.naturalHeight;
-            ctx.drawImage(img, 0, 0);
-            c.toBlob(function (myBlob) {
-                navigator.clipboard.write([
-                    new ClipboardItem({
-                        "image/png": new Promise(async (resolve) => {
-                            resolve(new Blob([myBlob], { type: "image/png" }));
-                            alert('image copied to clipboard');
-                        }),
-                    }),
-                ]);
-                // var objectURL = URL.createObjectURL(myBlob);
-                // try {
-                //     navigator.clipboard.write([
-                //         new ClipboardItem({
-                //             'image/png': myBlob
-                //         })
-                //     ]);
-                // } catch (error) {
-                //     console.error(error);
-                // }
-            }, "image/png", 0.75);
-        }
+        //     c.width = img.naturalWidth;
+        //     c.height = img.naturalHeight;
+        //     ctx.drawImage(img, 0, 0);
+        //     c.toBlob(function (myBlob) {
+        //         navigator.clipboard.write([
+        //             new ClipboardItem({
+        //                 "image/png": new Promise(async (resolve) => {
+        //                     resolve(new Blob([myBlob], { type: "image/png" }));
+        //                     alert('image copied to clipboard');
+        //                 }),
+        //             }),
+        //         ]);
+        //     }, "image/png", 0.75);
+        // }
 
     </script>
 </body>
