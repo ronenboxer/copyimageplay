@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <main>
+        <image src="meme.png" onclick="copyImageToClipboard(event)"></image>
+    </main>
+    <script typescript>
+        function copyImageToClipboard(ev) {
+            var img = ev.target;
+            var c = document.createElement("canvas");
+            var ctx = c.getContext("2d");
+
+            c.width = img.naturalWidth;     
+            c.height = img.naturalHeight;
+            ctx.drawImage(img, 0, 0);
+            c.toBlob(function (myBlob) {
+                var objectURL = URL.createObjectURL(myBlob);
+                try {
+                    navigator.clipboard.write([
+                        new ClipboardItem({
+                            'image/png': myBlob
+                        })
+                    ]);
+                    alert('image copied to clipboard');
+                } catch (error) {
+                    console.error(error);
+                }
+            }, "image/png", 0.75);
+        }
+
+    </script>
+</body>
+
+</html>
