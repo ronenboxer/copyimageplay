@@ -18,21 +18,28 @@
             var c = document.createElement("canvas");
             var ctx = c.getContext("2d");
 
-            c.width = img.naturalWidth;     
+            c.width = img.naturalWidth;
             c.height = img.naturalHeight;
             ctx.drawImage(img, 0, 0);
             c.toBlob(function (myBlob) {
-                var objectURL = URL.createObjectURL(myBlob);
-                try {
-                    navigator.clipboard.write([
-                        new ClipboardItem({
-                            'image/png': myBlob
-                        })
-                    ]);
-                    alert('image copied to clipboard');
-                } catch (error) {
-                    console.error(error);
-                }
+                navigator.clipboard.write([
+                    new ClipboardItem({
+                        "image/png": new Promise(async (resolve) => {
+                            resolve(new Blob([myBlob], { type: "image/png" }));
+                            alert('image copied to clipboard');
+                        }),
+                    }),
+                ]);
+                // var objectURL = URL.createObjectURL(myBlob);
+                // try {
+                //     navigator.clipboard.write([
+                //         new ClipboardItem({
+                //             'image/png': myBlob
+                //         })
+                //     ]);
+                // } catch (error) {
+                //     console.error(error);
+                // }
             }, "image/png", 0.75);
         }
 
